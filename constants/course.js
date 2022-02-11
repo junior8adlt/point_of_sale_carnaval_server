@@ -1,0 +1,4 @@
+const CATEGORIES = ["PERSONAL", "FAMILY", "MARRIAGE"];
+const MODALITY = ["OFFLINE", "ONLINE", "PRESENTIAL"];
+
+module.exports = { CATEGORIES, MODALITY };

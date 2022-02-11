@@ -1,0 +1,30 @@
+{
+  "name": "point_of_sale_carnaval_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "set NODE_ENV=production && node ./index.js",
+    "start:dev": "nodemon ./index.js",
+    "migrate": "npx sequelize-cli db:migrate"
+  },
+  "author": "Sandro Estrada",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server-core": "^3.3.0",
+    "apollo-server-express": "^3.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "graphql": "^15.6.0",
+    "imagekit": "^3.2.3",
+    "lodash.merge": "^4.6.2",
+    "nodemailer": "^6.7.2",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13",
+    "sequelize-cli": "^5.4.0"
+  }
+}
