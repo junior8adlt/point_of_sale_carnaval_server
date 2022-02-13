@@ -51,10 +51,14 @@ const typeDef = `
         totalAmountProductTransfered: Float
         totalOriginalProductPrice: Float
     }
+    type TransferData {
+      send: [TransferJoin]
+      returned: [TransferJoin]
+    }
     type MovementsResume {
       metrics: Metrics
       movements: [MovementJoin]
-      transfers: [TransferJoin]
+      transfers: TransferData
     }
     extend type Query {
       getMovementsByDepartment(id: Int): [MovementJoin]

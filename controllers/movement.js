@@ -6,6 +6,7 @@ const {
   sequelize,
 } = require("../models");
 const { notFound } = require("../libs/errors");
+const { Op } = require("sequelize");
 
 const MOVEMENT_TYPES = ["PURCHASE", "SALE"];
 
@@ -93,17 +94,26 @@ class Movement {
     let totalAmountProductTransfered = 0;
     let totalOriginalProductPrice = 0;
     const transfers = await TransferModel.findAll({
-      where: sequelize.where(
-        sequelize.fn("date", sequelize.col("transfer.created_at")),
-        "=",
-        date
-      ),
+      where: {
+        created_at: sequelize.where(
+          sequelize.fn("date", sequelize.col("transfer.created_at")),
+          "=",
+          date
+        ),
+        [Op.or]: [
+          {
+            departmentIdTo: id,
+          },
+          {
+            departmentIdFrom: id,
+          },
+        ],
+      },
       include: [
         {
           model: DepartmentModel,
           required: true,
           as: "departmentTo",
-          where: { id },
         },
         {
           model: DepartmentModel,
@@ -118,8 +128,16 @@ class Movement {
       nest: true,
       raw: true,
     });
-
-    transfers.forEach((transfer) => {
+    const productSend = []
+    const productReturned = []
+    transfers.forEach(transfer => {
+      if (transfer.departmentIdTo == id) {
+        productSend.push(transfer)
+      } else {
+        productReturned.push(transfer)
+      }
+    })
+    productSend.forEach((transfer) => {
       totalAmountProductTransfered += transfer.amount;
       totalOriginalProductPrice += transfer.amount * transfer.product.price;
     });
@@ -136,10 +154,11 @@ class Movement {
         totalOriginalProductPrice, // valor de la mercancia que tiene ese departamento
       },
       movements,
-      transfers,
+      transfers: {
+        send: productSend,
+        returned: productReturned
+      },
     };
-    console.log({ movements }, "---------movements-------");
-    console.log({ transfers }, "---------transfers-------");
     return response;
   }
 
@@ -156,7 +175,6 @@ class Movement {
         },
       ],
     });
-    console.log(movements, "--------------");
     return movements;
   }
   static async saveMovements(movements) {
