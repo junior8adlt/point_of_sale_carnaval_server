@@ -21,7 +21,6 @@ class Transfer {
         date
       );
     }
-    console.log(where,"-----------------where")
     return await TransferModel.findAll({
       where,
       include: [
@@ -69,7 +68,15 @@ class Transfer {
   }
   static async saveTransfers(transfers) {
     try {
-      await TransferModel.bulkCreate(transfers);
+      const date = new Date();
+      const month = date.getMonth() + 1;
+      const monthFormat = String(month).length === 1 ? `0${month}` : `${month}`;
+      const onlyDate = `${date.getFullYear()}-${monthFormat}-${date.getDate()}`;
+      const transfersWithDate = transfers.map((transfer) => ({
+        ...transfer,
+        date: onlyDate,
+      }));
+      await TransferModel.bulkCreate(transfersWithDate);
       return true;
     } catch (error) {
       console.error(error, "------------error");

@@ -44,11 +44,9 @@ class Movement {
 
   static async getResumeByDepartmentAndDate(id, date) {
     const movements = await MovementModel.findAll({
-      where: sequelize.where(
-        sequelize.fn("date", sequelize.col("movement.created_at")),
-        "=",
-        date
-      ),
+      where: {
+        date,
+      },
       include: [
         {
           model: DepartmentModel,
@@ -95,11 +93,7 @@ class Movement {
     let totalOriginalProductPrice = 0;
     const transfers = await TransferModel.findAll({
       where: {
-        created_at: sequelize.where(
-          sequelize.fn("date", sequelize.col("transfer.created_at")),
-          "=",
-          date
-        ),
+        date,
         [Op.or]: [
           {
             departmentIdTo: id,
@@ -128,15 +122,15 @@ class Movement {
       nest: true,
       raw: true,
     });
-    const productSend = []
-    const productReturned = []
-    transfers.forEach(transfer => {
+    const productSend = [];
+    const productReturned = [];
+    transfers.forEach((transfer) => {
       if (transfer.departmentIdTo == id) {
-        productSend.push(transfer)
+        productSend.push(transfer);
       } else {
-        productReturned.push(transfer)
+        productReturned.push(transfer);
       }
-    })
+    });
     productSend.forEach((transfer) => {
       totalAmountProductTransfered += transfer.amount;
       totalOriginalProductPrice += transfer.amount * transfer.product.price;
@@ -156,7 +150,7 @@ class Movement {
       movements,
       transfers: {
         send: productSend,
-        returned: productReturned
+        returned: productReturned,
       },
     };
     return response;
@@ -179,7 +173,15 @@ class Movement {
   }
   static async saveMovements(movements) {
     try {
-      await MovementModel.bulkCreate(movements);
+      const date = new Date();
+      const month = date.getMonth() + 1;
+      const monthFormat = String(month).length === 1 ? `0${month}` : `${month}`;
+      const onlyDate = `${date.getFullYear()}-${monthFormat}-${date.getDate()}`;
+      const movementsWithDate = movements.map((movement) => ({
+        ...movement,
+        date: onlyDate,
+      }));
+      await MovementModel.bulkCreate(movementsWithDate);
       const [purchaseType] = MOVEMENT_TYPES;
       const purchases = movements.filter(
         (movement) => movement.type === purchaseType
@@ -191,6 +193,7 @@ class Movement {
           departmentIdTo: departmentId,
           productId: productId,
           amount: amount,
+          date: onlyDate,
         })
       );
       await TransferModel.bulkCreate(transfers);
