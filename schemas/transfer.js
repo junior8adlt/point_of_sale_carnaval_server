@@ -1,9 +1,14 @@
-const { TransferController } = require("../controllers");
+const { TransferController } = require('../controllers');
 
 const typeDef = `
     enum TransferType {
       STOCK
       RETURN
+    }
+    type Stock {
+      sum: Int
+      product_id: Int
+      name: String
     }
     type Transfer {
       id: ID
@@ -49,6 +54,7 @@ const typeDef = `
     extend type Query {
       getTransfersByDepartment(input: GetTransfersByDepartmentInput): [TransferJoin]
       getTransfers: [TransferJoin]
+      getInventoryStock(id: Int!): [Stock]
     }
     extend type Mutation {
       createTransfers(input: [TransferInput]): Boolean
@@ -65,6 +71,9 @@ const resolvers = {
     },
     getTransfers: () => {
       return TransferController.getAll();
+    },
+    getInventoryStock: (_, { id }) => {
+      return TransferController.getInventory(id);
     },
   },
   Mutation: {
