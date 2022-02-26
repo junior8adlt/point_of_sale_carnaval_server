@@ -28,6 +28,7 @@ const typeDef = `
       departmentTo: Department
       product: Product
       amount: Int
+      date: String
       createdAt: Date
       updatedAt: Date
       deletedAt: Date
@@ -38,6 +39,7 @@ const typeDef = `
       departmentIdTo: Int!
       productId: Int!
       amount: Int!
+      date: String!
     }
     input updateTransferInput {
       description: String
@@ -45,6 +47,7 @@ const typeDef = `
       departmentIdTo: Int
       productId: Int
       amount: Int
+      date: String
     }
     input GetTransfersByDepartmentInput {
       id: Int!

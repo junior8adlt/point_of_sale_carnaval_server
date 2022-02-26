@@ -1,4 +1,4 @@
-const { MovementController } = require("../controllers");
+const { MovementController } = require('../controllers');
 
 const typeDef = `
     type Movement {
@@ -21,6 +21,7 @@ const typeDef = `
       type: String
       department: Department
       product: Product
+      date: String
       createdAt: Date
       updatedAt: Date
       deletedAt: Date
@@ -32,6 +33,7 @@ const typeDef = `
       total: Int!
       type: String!
       departmentId: Int!
+      date: String!
     }
     input updateMovementInput {
       description: String
@@ -40,6 +42,7 @@ const typeDef = `
       total: Int
       type: String
       departmentId: Int
+      date: String
     }
     type Metrics {
         totalSale: Float
@@ -50,6 +53,8 @@ const typeDef = `
         totalFreeAmountSaleProduct: Float
         totalAmountProductTransfered: Float
         totalOriginalProductPrice: Float
+        wareHouseTotalFinal: Float
+        totalProductAmountToReturn: Float
     }
     type TransferData {
       send: [TransferJoin]

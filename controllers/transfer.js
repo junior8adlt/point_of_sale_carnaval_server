@@ -97,15 +97,15 @@ class Transfer {
   }
   static async saveTransfers(transfers) {
     try {
-      const date = new Date();
-      const month = date.getMonth() + 1;
-      const monthFormat = String(month).length === 1 ? `0${month}` : `${month}`;
-      const onlyDate = `${date.getFullYear()}-${monthFormat}-${date.getDate()}`;
-      const transfersWithDate = transfers.map((transfer) => ({
-        ...transfer,
-        date: onlyDate,
-      }));
-      await TransferModel.bulkCreate(transfersWithDate);
+      // const date = new Date();
+      // const month = date.getMonth() + 1;
+      // const monthFormat = String(month).length === 1 ? `0${month}` : `${month}`;
+      // const onlyDate = `${date.getFullYear()}-${monthFormat}-${date.getDate()}`;
+      // const transfersWithDate = transfers.map((transfer) => ({
+      //   ...transfer,
+      //   date: onlyDate,
+      // }));
+      await TransferModel.bulkCreate(transfers);
       return true;
     } catch (error) {
       console.error(error, '------------error');
