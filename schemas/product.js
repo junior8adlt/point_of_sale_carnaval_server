@@ -1,21 +1,21 @@
-const { ProductController } = require("../controllers");
+const { ProductController } = require('../controllers');
 
 const typeDef = `
     type Product {
       id: ID
       name: String
       price: Float
-      comission: Int
+      comission: Float
     }
     input ProductInput {
       name: String!
       price: Float!
-      comission: Int!
+      comission: Float!
     }
     input updateProductInput {
       name: String
       price: Float
-      comission: Int
+      comission: Float
     }
     extend type Query {
       getProducts(type: String): [Product]

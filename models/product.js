@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define(
-    "product",
+    'product',
     {
       id: {
         allowNull: false,
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       comission: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
       createdAt: {
@@ -42,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true,
     }
   );
-  Product.associate = function (models) {
-  };
+  Product.associate = function (models) {};
   return Product;
 };
