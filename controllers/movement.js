@@ -66,6 +66,7 @@ class Movement {
     const purchaseProducts = [];
     const saleProducts = [];
     let totalSale = 0;
+    let totalSaleAtFactoryCost = 0;
     let totalSaleCommission = 0;
     let totalFreeSale = 0;
     let wareHouseTotalFinal = 0;
@@ -75,11 +76,14 @@ class Movement {
     let totalAmountPurchaseProduct = 0;
     let totalFreeAmountSaleProduct = 0;
     let totalProductAmountToReturn = 0;
-    movements.forEach((movement) => {
+    movements.forEach((movement, index) => {
+      const movementTotalSaleAtFactoryCost = +movement.amount * +movement.product.factoryPrice
+      movements[index].totalSaleAtFactoryCost = movementTotalSaleAtFactoryCost
       if (movement.total === 0 && movement.type === 'SALE') {
         freeProducts.push(movement);
         totalFreeAmountSaleProduct += movement.amount;
         totalFreeSale += movement.amount * movement.product.price;
+        totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost
       } else if (movement.type === 'PURCHASE') {
         purchaseProducts.push(movement);
         totalAmountPurchaseProduct += movement.amount;
@@ -88,6 +92,7 @@ class Movement {
         totalSale += movement.total;
         totalAmountSaleProduct += movement.amount;
         totalSaleCommission += +movement.amount * +movement.product.comission;
+        totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost
       }
     });
     totalSale += totalFreeSale;
@@ -155,6 +160,7 @@ class Movement {
         totalOriginalProductPrice, // valor de la mercancia que tiene ese departamento
         wareHouseTotalFinal, // valor de la final del almacen
         totalProductAmountToReturn, // productos que se deben devolver
+        totalSaleAtFactoryCost, // venta total a costo de fabrica
       },
       movements,
       transfers: {

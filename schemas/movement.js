@@ -25,6 +25,7 @@ const typeDef = `
       createdAt: Date
       updatedAt: Date
       deletedAt: Date
+      totalSaleAtFactoryCost: Float
     }
     input MovementInput {
       description: String
@@ -55,6 +56,7 @@ const typeDef = `
         totalOriginalProductPrice: Float
         wareHouseTotalFinal: Float
         totalProductAmountToReturn: Float
+        totalSaleAtFactoryCost: Float
     }
     type TransferData {
       send: [TransferJoin]

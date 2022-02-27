@@ -6,15 +6,18 @@ const typeDef = `
       name: String
       price: Float
       comission: Float
+      factoryPrice: Float
     }
     input ProductInput {
       name: String!
       price: Float!
+      factoryPrice: Float!
       comission: Float!
     }
     input updateProductInput {
       name: String
       price: Float
+      factoryPrice: Float
       comission: Float
     }
     extend type Query {

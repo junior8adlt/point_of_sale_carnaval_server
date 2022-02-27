@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         allowNull: false,
       },
+      factoryPrice: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+      },
       comission: {
         type: DataTypes.FLOAT,
         allowNull: false,
