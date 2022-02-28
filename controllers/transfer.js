@@ -15,7 +15,7 @@ class Transfer {
   static async getInventory(departmentId) {
     const totalSalesByProduct = await sequelize.query(
       `
-    SELECT SUM(amount), movement.product_id  FROM movement WHERE type = 'SALE' GROUP BY product_id
+    SELECT SUM(amount), movement.product_id  FROM movement WHERE type = 'SALE' AND total > 0 GROUP BY product_id
     `,
       { type: sequelize.QueryTypes.SELECT }
     );

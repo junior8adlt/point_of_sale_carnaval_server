@@ -77,13 +77,14 @@ class Movement {
     let totalFreeAmountSaleProduct = 0;
     let totalProductAmountToReturn = 0;
     movements.forEach((movement, index) => {
-      const movementTotalSaleAtFactoryCost = +movement.amount * +movement.product.factoryPrice
-      movements[index].totalSaleAtFactoryCost = movementTotalSaleAtFactoryCost
+      const movementTotalSaleAtFactoryCost =
+        +movement.amount * +movement.product.factoryPrice;
+      movements[index].totalSaleAtFactoryCost = movementTotalSaleAtFactoryCost;
       if (movement.total === 0 && movement.type === 'SALE') {
         freeProducts.push(movement);
         totalFreeAmountSaleProduct += movement.amount;
         totalFreeSale += movement.amount * movement.product.price;
-        totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost
+        totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost;
       } else if (movement.type === 'PURCHASE') {
         purchaseProducts.push(movement);
         totalAmountPurchaseProduct += movement.amount;
@@ -92,10 +93,12 @@ class Movement {
         totalSale += movement.total;
         totalAmountSaleProduct += movement.amount;
         totalSaleCommission += +movement.amount * +movement.product.comission;
-        totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost
+        totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost;
       }
     });
-    totalSale += totalFreeSale;
+    //Solo aplica a GDL
+    // totalSale += totalFreeSale;
+
     wareHouseTotalFinal = totalSale - totalSaleCommission - totalFreeSale;
 
     let totalAmountProductTransfered = 0;
