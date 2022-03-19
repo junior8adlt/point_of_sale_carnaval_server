@@ -26,9 +26,14 @@ class Movement {
       ],
     });
   }
-  static async getByDepartmentAndType(id, type) {
+
+  static async getByDepartmentAndType(id, type, date) {
+    const where = { type, departmentId: id }
+    if (date) {
+      where.date = date
+    }
     return await MovementModel.findAll({
-      where: { type, departmentId: id },
+      where,
       include: [
         {
           model: DepartmentModel,
@@ -43,6 +48,7 @@ class Movement {
   }
 
   static async getResumeByDepartmentAndDate(id, date) {
+    const [GENERAL, CORTESIA, GRATIS] = ["GENERAL", "CORTESIA", 'GRATIS']
     const movements = await MovementModel.findAll({
       where: {
         date,
@@ -79,7 +85,7 @@ class Movement {
     movements.forEach((movement, index) => {
       const movementTotalSaleAtFactoryCost = +movement.amount * +movement.product.factoryPrice
       movements[index].totalSaleAtFactoryCost = movementTotalSaleAtFactoryCost
-      if (movement.total === 0 && movement.type === 'SALE') {
+      if (movement.saleType === GRATIS && movement.type === 'SALE') {
         freeProducts.push(movement);
         totalFreeAmountSaleProduct += movement.amount;
         totalFreeSale += movement.amount * movement.product.price;
@@ -87,11 +93,13 @@ class Movement {
       } else if (movement.type === 'PURCHASE') {
         purchaseProducts.push(movement);
         totalAmountPurchaseProduct += movement.amount;
-      } else {
+      } else if (movement.type === 'SALE') {
         saleProducts.push(movement);
         totalSale += movement.total;
         totalAmountSaleProduct += movement.amount;
-        totalSaleCommission += +movement.amount * +movement.product.comission;
+        if (movement.saleType === GENERAL || !movement.saleType) {
+          totalSaleCommission += +movement.amount * +movement.product.comission;
+        }
         totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost
       }
     });

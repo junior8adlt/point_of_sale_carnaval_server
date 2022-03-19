@@ -35,6 +35,7 @@ const typeDef = `
       type: String!
       departmentId: Int!
       date: String!
+      saleType: String
     }
     input updateMovementInput {
       description: String
@@ -69,7 +70,7 @@ const typeDef = `
     }
     extend type Query {
       getMovementsByDepartment(id: Int): [MovementJoin]
-      getMovementsByDepartmentAndType(departmentId: Int!, departmentType: String!): [MovementJoin]
+      getMovementsByDepartmentAndType(departmentId: Int!, departmentType: String!, date: String): [MovementJoin]
       getResumeByDepartmentAndDate(departmentId: Int!, date: String!): MovementsResume
     }
     extend type Mutation {
@@ -89,12 +90,13 @@ const resolvers = {
     },
     getMovementsByDepartmentAndType: (
       _,
-      { departmentId, departmentType },
+      { departmentId, departmentType, date },
       context
     ) => {
       return MovementController.getByDepartmentAndType(
         departmentId,
-        departmentType
+        departmentType,
+        date
       );
     },
     getResumeByDepartmentAndDate: (_, { departmentId, date }, context) => {
