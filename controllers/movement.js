@@ -97,7 +97,7 @@ class Movement {
         saleProducts.push(movement);
         totalSale += movement.total;
         totalAmountSaleProduct += movement.amount;
-        if (movement.saleType === GENERAL || !movement.saleType) {
+        if (movement.saleType === GENERAL) {
           totalSaleCommission += +movement.amount * +movement.product.comission;
         }
         totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost
