@@ -7,6 +7,7 @@ const typeDef = `
       amount: String
       total: String
       type: String
+      saleType: String
       departmentId: Int
       productId: Int
       createdAt: String
@@ -19,6 +20,7 @@ const typeDef = `
       amount: String
       total: String
       type: String
+      saleType: String
       department: Department
       product: Product
       date: String
@@ -45,6 +47,7 @@ const typeDef = `
       type: String
       departmentId: Int
       date: String
+      saleType: String
     }
     type Metrics {
         totalSale: Float
