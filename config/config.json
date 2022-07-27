@@ -14,10 +14,16 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": "root",
+    "username": "lienzocharrochapala",
+    "password": "lDSipLCY4STQGLrIEGpJGk3bWLhmmKXz",
     "database": "carnaval_chapala",
-    "host": "127.0.0.1",
+    "host": "dpg-cbgb44ti0e8acetngemg-a.oregon-postgres.render.com",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    },
     "dialect": "postgres"
   }
 }
