@@ -14,10 +14,11 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "lienzocharrochapala",
-    "password": "lDSipLCY4STQGLrIEGpJGk3bWLhmmKXz",
-    "database": "carnaval_chapala",
-    "host": "dpg-cbgb44ti0e8acetngemg-a.oregon-postgres.render.com",
+    "username": "postgres",
+    "password": "HjjzJ7FJM6qEJK4aFEsV",
+    "database": "railway",
+    "host": "containers-us-west-35.railway.app",
+    "port": 7874,
     "dialectOptions": {
       "ssl": {
         "require": true,
