@@ -47,6 +47,26 @@ class Movement {
     });
   }
 
+  static async getSalesTotalByAllTheShops(date) {
+    const where = { type: 'SALE' };
+    if (date) {
+      where.date = date;
+    }
+    return await MovementModel.findAll({
+      where,
+      include: [
+        {
+          model: DepartmentModel,
+          required: true,
+        },
+        {
+          model: ProductModel,
+          required: true,
+        },
+      ],
+    });
+  }
+
   static async getResumeByDepartmentAndDate(id, date) {
     const [GENERAL, CORTESIA, GRATIS] = ['GENERAL', 'CORTESIA', 'GRATIS'];
     const movements = await MovementModel.findAll({

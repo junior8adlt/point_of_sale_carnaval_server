@@ -75,6 +75,7 @@ const typeDef = `
       getMovementsByDepartment(id: Int): [MovementJoin]
       getMovementsByDepartmentAndType(departmentId: Int!, departmentType: String!, date: String): [MovementJoin]
       getResumeByDepartmentAndDate(departmentId: Int!, date: String!): MovementsResume
+      getSalesTotalByAllTheShops(date: String): [MovementJoin]
     }
     extend type Mutation {
       createMovements(input: [MovementInput]): Boolean
@@ -91,22 +92,14 @@ const resolvers = {
       }
       return MovementController.getAll();
     },
-    getMovementsByDepartmentAndType: (
-      _,
-      { departmentId, departmentType, date },
-      context
-    ) => {
-      return MovementController.getByDepartmentAndType(
-        departmentId,
-        departmentType,
-        date
-      );
+    getMovementsByDepartmentAndType: (_, { departmentId, departmentType, date }, context) => {
+      return MovementController.getByDepartmentAndType(departmentId, departmentType, date);
+    },
+    getSalesTotalByAllTheShops: (_, { date }, context) => {
+      return MovementController.getSalesTotalByAllTheShops(date);
     },
     getResumeByDepartmentAndDate: (_, { departmentId, date }, context) => {
-      return MovementController.getResumeByDepartmentAndDate(
-        departmentId,
-        date
-      );
+      return MovementController.getResumeByDepartmentAndDate(departmentId, date);
     },
   },
   Mutation: {
