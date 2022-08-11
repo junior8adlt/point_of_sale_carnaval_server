@@ -28,9 +28,9 @@ class Movement {
   }
 
   static async getByDepartmentAndType(id, type, date) {
-    const where = { type, departmentId: id }
+    const where = { type, departmentId: id };
     if (date) {
-      where.date = date
+      where.date = date;
     }
     return await MovementModel.findAll({
       where,
@@ -48,7 +48,7 @@ class Movement {
   }
 
   static async getResumeByDepartmentAndDate(id, date) {
-    const [GENERAL, CORTESIA, GRATIS] = ["GENERAL", "CORTESIA", 'GRATIS']
+    const [GENERAL, CORTESIA, GRATIS] = ['GENERAL', 'CORTESIA', 'GRATIS'];
     const movements = await MovementModel.findAll({
       where: {
         date,
@@ -83,13 +83,13 @@ class Movement {
     let totalFreeAmountSaleProduct = 0;
     let totalProductAmountToReturn = 0;
     movements.forEach((movement, index) => {
-      const movementTotalSaleAtFactoryCost = +movement.amount * +movement.product.factoryPrice
-      movements[index].totalSaleAtFactoryCost = movementTotalSaleAtFactoryCost
+      const movementTotalSaleAtFactoryCost = +movement.amount * +movement.product.factoryPrice;
+      movements[index].totalSaleAtFactoryCost = movementTotalSaleAtFactoryCost;
       if (movement.saleType === GRATIS && movement.type === 'SALE') {
         freeProducts.push(movement);
         totalFreeAmountSaleProduct += movement.amount;
         totalFreeSale += movement.amount * movement.product.price;
-        totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost
+        totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost;
       } else if (movement.type === 'PURCHASE') {
         purchaseProducts.push(movement);
         totalAmountPurchaseProduct += movement.amount;
@@ -100,7 +100,7 @@ class Movement {
         if (movement.saleType === GENERAL) {
           totalSaleCommission += +movement.amount * +movement.product.comission;
         }
-        totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost
+        totalSaleAtFactoryCost += movementTotalSaleAtFactoryCost;
       }
     });
     totalSale += totalFreeSale;
@@ -153,9 +153,7 @@ class Movement {
       totalOriginalProductPrice += transfer.amount * transfer.product.price;
     });
     totalProductAmountToReturn =
-      totalAmountProductTransfered -
-      totalAmountSaleProduct -
-      totalFreeAmountSaleProduct;
+      totalAmountProductTransfered - totalAmountSaleProduct - totalFreeAmountSaleProduct;
     const response = {
       metrics: {
         totalSale, // venta total
@@ -206,19 +204,15 @@ class Movement {
       // }));
       await MovementModel.bulkCreate(movements);
       const [purchaseType] = MOVEMENT_TYPES;
-      const purchases = movements.filter(
-        (movement) => movement.type === purchaseType
-      );
-      const transfers = purchases.map(
-        ({ description, departmentId, productId, amount, date }) => ({
-          description: `${purchaseType}-${description}`,
-          departmentIdFrom: departmentId,
-          departmentIdTo: departmentId,
-          productId: productId,
-          amount: amount,
-          date,
-        })
-      );
+      const purchases = movements.filter((movement) => movement.type === purchaseType);
+      const transfers = purchases.map(({ description, departmentId, productId, amount, date }) => ({
+        description: description,
+        departmentIdFrom: departmentId,
+        departmentIdTo: departmentId,
+        productId: productId,
+        amount: amount,
+        date,
+      }));
       await TransferModel.bulkCreate(transfers);
       return true;
     } catch (error) {
