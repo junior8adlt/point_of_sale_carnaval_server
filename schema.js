@@ -1,4 +1,4 @@
-const merge = require("lodash.merge");
+const merge = require('lodash.merge');
 const {
   departmentSchema,
   departmentResolvers,
@@ -8,7 +8,9 @@ const {
   movementResolvers,
   transferSchema,
   transferResolvers,
-} = require("./schemas");
+  billSchema,
+  billResolvers,
+} = require('./schemas');
 
 const globalTypeDefs = `
   scalar Date
@@ -16,6 +18,8 @@ const globalTypeDefs = `
   ${productSchema}
   ${movementSchema}
   ${transferSchema}
+  ${billSchema}
+
 `;
 
 module.exports = {
@@ -24,6 +28,7 @@ module.exports = {
     departmentResolvers,
     productResolvers,
     movementResolvers,
-    transferResolvers
+    transferResolvers,
+    billResolvers,
   ),
 };
